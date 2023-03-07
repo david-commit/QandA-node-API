@@ -17,7 +17,7 @@ model User {
   phone     String
   role      String
   password  String
-  question  Question[]
+  questions Question[]
 
   @@map(name: "user")
 }
@@ -29,7 +29,7 @@ model Question {
   updated_at DateTime @updatedAt
   user       User     @relation(fields: [user_id], references: [id])
   user_id    Int
-  answer     Answer[]
+  answers    Answer[]
 
   @@map(name: "question")
 }
