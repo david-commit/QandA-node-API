@@ -17,7 +17,18 @@ model User {
   phone     String
   role      String
   password  String
+  question  Question[]
 
   @@map(name: "user")
 }
 
+model Question {
+  id         Int      @id @default(autoincrement())
+  question   String   @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    Int
+
+  @@map(name: "question")
+}
