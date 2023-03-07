@@ -29,6 +29,18 @@ model Question {
   updated_at DateTime @updatedAt
   user       User     @relation(fields: [user_id], references: [id])
   user_id    Int
+  answer     Answer[]
 
   @@map(name: "question")
+}
+
+model Answer {
+  id          Int      @id @default(autoincrement())
+  answer      String   @db.VarChar(500)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  question    Question @relation(fields: [question_id], references: [id])
+  question_id Int
+
+  @@map(name: "answer")
 }
