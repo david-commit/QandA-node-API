@@ -10,6 +10,7 @@ const cors = require('cors')
 dotenv.config()
 
 // Middleware
+// app.use(express.json())
 app.use(bodyParser.json())
 app.use('/', globalRoutes)
 app.use('/auth', authRoutes)
