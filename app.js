@@ -4,6 +4,7 @@ const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
 const globalRoutes = require('./routes/routes')
 const authRoutes = require('./routes/auth')
+const cors = require('cors')
 
 // Configuration
 dotenv.config()
@@ -12,6 +13,7 @@ dotenv.config()
 app.use(bodyParser.json())
 app.use('/', globalRoutes)
 app.use('/auth', authRoutes)
+app.use(cors())
 
 const PORT = process.env.PORT || 8000
 app.listen(PORT, () => {

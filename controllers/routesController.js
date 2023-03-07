@@ -1,4 +1,55 @@
 const getQuestions = (req, res) => {
+  res.json([
+    {
+      id: 1,
+      user_id: 1,
+      question:
+        'What is the average experience needed to be a Principal Software Engineer?',
+      answers: [
+        {
+          id: 1,
+          user_id: 2,
+          answer: "I'd say 5 years on the job",
+        },
+        {
+          id: 2,
+          user_id: 3,
+          answer: "I'd say 5 years on the job",
+        },
+        {
+          id: 3,
+          user_id: 2,
+          answer: 'Correction, Indeed suggests 7 years',
+        },
+      ],
+    },
+    {
+      id: 2,
+      user_id: 1,
+      question:
+        'What is the average experience needed to be a Principal Software Engineer?',
+      answers: [
+        {
+          id: 1,
+          user_id: 2,
+          answer: "I'd say 5 years on the job",
+        },
+        {
+          id: 2,
+          user_id: 3,
+          answer: "I'd say 5 years on the job",
+        },
+        {
+          id: 3,
+          user_id: 2,
+          answer: 'Correction, Indeed suggests 7 years',
+        },
+      ],
+    },
+  ]);
+};
+
+const getQuestion = (req, res) => {
   res.json({
     id: 1,
     user_id: 1,
@@ -24,4 +75,4 @@ const getQuestions = (req, res) => {
   });
 };
 
-module.exports = { getQuestions }
+module.exports = { getQuestions, getQuestion };
