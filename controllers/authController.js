@@ -120,13 +120,6 @@ const userLoginValidation = [
   }),
 ];
 
-// ====> Delete question controller & Validation
-const deleteQuestion = (req, res) => {
-  res.json({
-    message: "You're deteting a question",
-  });
-};
-
 // ====> Post answer controller & Validation
 const postAnswer = (req, res) => {
   res.json({
@@ -163,7 +156,6 @@ const deleteAnswer = (req, res) => {
 module.exports = {
   registerUser,
   userLogin,
-  deleteQuestion,
   postAnswer,
   updateAnswer,
   deleteAnswer,

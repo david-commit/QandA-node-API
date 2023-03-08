@@ -5,11 +5,13 @@ const {
   getQuestion,
   getTest,
   postQuestion,
+  deleteQuestion,
 } = require('../controllers/routesController');
 
-router.post('/questions', postQuestion);
 router.get('/questions', getQuestions)
 router.get('/questions/:q_id', getQuestion)
+router.post('/questions', postQuestion);
+router.delete('/questions/:q_id', deleteQuestion);
 router.get('/test', getTest)
 
 module.exports = router

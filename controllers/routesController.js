@@ -46,7 +46,7 @@ const getQuestion = async (req, res) => {
   const { q_id } = req.params
 
   // Find single question
-  const questionExists = await prisma.question.findUnique({
+  const question = await prisma.question.findUnique({
     where: {
       id: parseInt(q_id),
     },
@@ -59,13 +59,46 @@ const getQuestion = async (req, res) => {
     },
   });
 
-  if (!questionExists) {
+  if (!question) {
     return res.status(400).json({
       msg: "Question does not exist"
     })
   }
   
-  res.json(questionExists);
+  res.json(question);
+};
+
+// ====> Delete question controller & Validation
+const deleteQuestion = async (req, res) => {
+  const { q_id } = req.params
+
+  // Check if user is authenticated
+ 
+
+  // Find question by ID
+  const question = await prisma.question.findUnique({
+    where: {
+      id: parseInt(q_id)
+    }
+  })
+  
+  // Check if question exists
+  if (!question) {
+    return res.status(400).json({
+      msg: "Question does not exist"
+    })
+  }
+
+  // Proceed to delete
+  await prisma.question.delete({
+    where: {
+      id: parseInt(q_id)
+    }
+  })
+
+  res.json({
+    msg: "Question deleted successfully"
+  })
 };
 
 const getTest = async (req, res) => {
@@ -82,4 +115,10 @@ const getTest = async (req, res) => {
   res.json(users)
 }
 
-module.exports = { getQuestions, getQuestion, getTest, postQuestion };
+module.exports = {
+  getQuestions,
+  getQuestion,
+  getTest,
+  postQuestion,
+  deleteQuestion,
+};
