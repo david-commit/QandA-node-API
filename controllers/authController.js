@@ -1,34 +1,39 @@
 const { check, validationResult } = require('express-validator');
 const { PrismaClient } = require('@prisma/client');
 const { user } = new PrismaClient();
+const bcrypt = require('bcrypt')
 
-// Register controller & Validation
+// ====> Register controller & Validation
 const registerUser = async (req, res) => {
   const { full_name, email, phone, role, password, questions } = req.body;
   // Validate the input request
   const errors = validationResult(req);
-
+  
   // Chech for errors
   if (!errors.isEmpty()) {
     return res.status(400).json({
       errors: errors.array(),
-    });
+    }); 
   }
-
+  
   // Check if user exists
   const userExists = await user.findUnique({
     where: {
       email,
     },
   });
-
+  
   // Avoiding duplicate users by checking emails
   if (userExists) {
     return res.status(400).json({ msg: 'Email has been taken' });
   }
+  
+  // Hash password
+  const hashedPassword = await bcrypt.hash(password, 10)
+
   // Send to DB
   const createUser = await user.create({
-    data: { full_name, email, phone, role, password, questions },
+    data: { full_name, email, phone, role, password: hashedPassword, questions },
   });
 
   res.json(createUser);
@@ -46,17 +51,30 @@ const registerUserValidation = [
   }),
 ];
 
-
-
-
-
-
-
-
-
-// Login controller & Validation
+// ====> Login controller & Validation
 const userLogin = (req, res) => {
   const { email, password } = req.body;
+  // Validate the input request
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty) {
+    res.status(400).json({
+      errors: errors.array()
+    })
+  }
+
+  // Validate if user exist
+  const userExists = user.findUnique({
+    where: {
+      email
+    }
+  })
+  if (!userExists) {
+    res.status(400).json({
+      msg: "User does not exist"
+    })
+  }
+
   res.json({
     message: "You're logging in a user",
   });
@@ -68,28 +86,28 @@ const userLoginValidation = [
   }),
 ];
 
-// Post question controller & Validation
+// ====> Post question controller & Validation
 const postQuestion = (req, res) => {
   res.json({
     message: "You're posting a question",
   });
 };
 
-// Delete question controller & Validation
+// ====> Delete question controller & Validation
 const deleteQuestion = (req, res) => {
   res.json({
     message: "You're deteting a question",
   });
 };
 
-// Post answer controller & Validation
+// ====> Post answer controller & Validation
 const postAnswer = (req, res) => {
   res.json({
     message: "You're posting an answer to a question",
   });
 };
 
-// Update answer controller & Validation
+// ====> Update answer controller & Validation
 const updateAnswer = (req, res) => {
   res.json({
     message: "You're editing an answer to a question",
@@ -108,7 +126,7 @@ const updateAnswerValidation = [
   }),
 ];
 
-// Delee answer controller & Validation
+// ====> Delete answer controller & Validation
 const deleteAnswer = (req, res) => {
   res.json({
     message: "You're deleting an answer to a question",
