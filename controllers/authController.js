@@ -84,7 +84,7 @@ const userLogin = async (req, res) => {
   }
 
   // Validate if user exists
-  const userExists = prisma.user.findUnique({
+  const userExists = await prisma.user.findUnique({
     where: {
       email,
     },
@@ -92,13 +92,13 @@ const userLogin = async (req, res) => {
 
   // Throw error if user doesnt exist on login attempt
   if (!userExists) {
-    res.status(400).json({
+    return res.status(400).json({
       msg: 'Invaid email or password',
     });
   }
 
   // Compare incoming & stored password
-  const matchedPassword = bcrypt.compare(password, userExists.password);
+  const matchedPassword = await bcrypt.compare(password, userExists.password);
 
   // Throw error is passwords dont match
   if (!matchedPassword) {
@@ -109,7 +109,7 @@ const userLogin = async (req, res) => {
     });
   }
 
-  const token = JWT.sign({ email }, SECRET, { expiresIn: '24h' });
+  const token = await JWT.sign({ email }, SECRET, { expiresIn: '24h' });
 
   res.json({ token });
 };
@@ -120,46 +120,9 @@ const userLoginValidation = [
   }),
 ];
 
-// ====> Post answer controller & Validation
-const postAnswer = (req, res) => {
-  res.json({
-    message: "You're posting an answer to a question",
-  });
-};
-
-// ====> Update answer controller & Validation
-const updateAnswer = (req, res) => {
-  res.json({
-    message: "You're editing an answer to a question",
-  });
-};
-const updateAnswerValidation = [
-  check('full_name', 'Name must be more than 3 characters')
-    .trim()
-    .isLength({ min: 3 }),
-  check('email', 'Invalid email').isEmail(),
-  check('password', 'Password must contain more than 6 characters').isLength({
-    min: 6,
-  }),
-  check('role', 'Please stste your role in/to the community').isLength({
-    min: 2,
-  }),
-];
-
-// ====> Delete answer controller & Validation
-const deleteAnswer = (req, res) => {
-  res.json({
-    message: "You're deleting an answer to a question",
-  });
-};
-
 module.exports = {
   registerUser,
   userLogin,
-  postAnswer,
-  updateAnswer,
-  deleteAnswer,
   registerUserValidation,
   userLoginValidation,
-  updateAnswerValidation,
 };
