@@ -1,42 +1,62 @@
 const { check, validationResult } = require('express-validator');
 const { PrismaClient } = require('@prisma/client');
 const { user } = new PrismaClient();
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const JWT = require('jsonwebtoken');
+const SECRET = process.env.SECRET;
 
 // ====> Register controller & Validation
 const registerUser = async (req, res) => {
   const { full_name, email, phone, role, password, questions } = req.body;
   // Validate the input request
   const errors = validationResult(req);
-  
+
   // Chech for errors
   if (!errors.isEmpty()) {
     return res.status(400).json({
       errors: errors.array(),
-    }); 
+    });
   }
-  
+
   // Check if user exists
   const userExists = await user.findUnique({
     where: {
       email,
     },
   });
-  
+
   // Avoiding duplicate users by checking emails
   if (userExists) {
     return res.status(400).json({ msg: 'Email has been taken' });
   }
-  
+
   // Hash password
-  const hashedPassword = await bcrypt.hash(password, 10)
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Create token
+  const token = await JWT.sign(
+    {
+      email,
+    },
+    SECRET,
+    {
+      expiresIn: '24h', // expires in 24 hours
+    }
+  );
 
   // Send to DB
-  const createUser = await user.create({
-    data: { full_name, email, phone, role, password: hashedPassword, questions },
+  const newUser = await user.create({
+    data: {
+      full_name,
+      email,
+      phone,
+      role,
+      password: hashedPassword,
+      questions,
+    },
   });
 
-  res.json(createUser);
+  return res.json({ newUser, token });
 };
 const registerUserValidation = [
   check('full_name', 'Name must be more than 3 characters')
@@ -52,32 +72,46 @@ const registerUserValidation = [
 ];
 
 // ====> Login controller & Validation
-const userLogin = (req, res) => {
+const userLogin = async (req, res) => {
   const { email, password } = req.body;
   // Validate the input request
   const errors = validationResult(req);
 
   if (!errors.isEmpty) {
     res.status(400).json({
-      errors: errors.array()
-    })
+      errors: errors.array(),
+    });
   }
 
-  // Validate if user exist
+  // Validate if user exists
   const userExists = user.findUnique({
     where: {
-      email
-    }
-  })
+      email,
+    },
+  });
+
+  // Throw error if user doesnt exist on login attempt
   if (!userExists) {
     res.status(400).json({
-      msg: "User does not exist"
-    })
+      msg: 'Invaid email or password',
+    });
   }
 
-  res.json({
-    message: "You're logging in a user",
-  });
+  // Compare incoming & stored password
+  const matchedPassword = bcrypt.compare(password, userExists.password);
+
+  // Throw error is passwords dont match
+  if (!matchedPassword) {
+    return res.status(400).json({
+      error: {
+        msg: 'Invalid email or password',
+      },
+    });
+  }
+
+  const token = JWT.sign({ email }, SECRET, { expiresIn: '24h' });
+
+  res.json({ token });
 };
 const userLoginValidation = [
   check('email', 'Invalid email').isEmail(),
@@ -88,6 +122,8 @@ const userLoginValidation = [
 
 // ====> Post question controller & Validation
 const postQuestion = (req, res) => {
+  const { answer, question_id } = req.body;
+
   res.json({
     message: "You're posting a question",
   });
