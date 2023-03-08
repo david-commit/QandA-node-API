@@ -62,3 +62,23 @@ Response:
   }
 ]
 ```
+## Posting a question
+Route: `POST /auth/register`
+
+```json
+{
+  "question": "When is the community festival happenening?",
+  "user_id": 8
+}
+```
+
+Response:
+```json
+{
+  "id": 2,
+  "question": "When is the community festival happenening?",
+  "created_at": "2023-03-08T16:15:04.823Z",
+  "updated_at": "2023-03-08T16:15:04.823Z",
+  "user_id": 8
+}
+```

@@ -1,6 +1,6 @@
 const { check, validationResult } = require('express-validator');
 const { PrismaClient } = require('@prisma/client');
-const { user } = new PrismaClient();
+const prisma = new PrismaClient();
 const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 const SECRET = process.env.SECRET;
@@ -19,7 +19,7 @@ const registerUser = async (req, res) => {
   }
 
   // Check if user exists
-  const userExists = await user.findUnique({
+  const userExists = await prisma.user.findUnique({
     where: {
       email,
     },
@@ -45,7 +45,7 @@ const registerUser = async (req, res) => {
   );
 
   // Send to DB
-  const newUser = await user.create({
+  const newUser = await prisma.user.create({
     data: {
       full_name,
       email,
@@ -84,7 +84,7 @@ const userLogin = async (req, res) => {
   }
 
   // Validate if user exists
-  const userExists = user.findUnique({
+  const userExists = prisma.user.findUnique({
     where: {
       email,
     },
@@ -119,15 +119,6 @@ const userLoginValidation = [
     min: 6,
   }),
 ];
-
-// ====> Post question controller & Validation
-const postQuestion = (req, res) => {
-  const { answer, question_id } = req.body;
-
-  res.json({
-    message: "You're posting a question",
-  });
-};
 
 // ====> Delete question controller & Validation
 const deleteQuestion = (req, res) => {
@@ -172,7 +163,7 @@ const deleteAnswer = (req, res) => {
 module.exports = {
   registerUser,
   userLogin,
-  postQuestion,
+  // postQuestion,
   deleteQuestion,
   postAnswer,
   updateAnswer,

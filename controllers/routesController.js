@@ -1,22 +1,37 @@
 const { PrismaClient } = require('@prisma/client');
-const { user, question, answer } = new PrismaClient
+const prisma = new PrismaClient
 
-const getTest = async (req, res) => {
-  const users = await user.findMany({
-    select: {
-      id: true, 
-      full_name: true,
-      email: true, 
-      phone: true,
-      role: true,
-      questions: true
-    }
-  })
-  res.json(users)
-}
+// ====> Post question controller & Validation
+const postQuestion = async (req, res) => {
+  const { question, user_id } = req.body;
+
+  // Check if user exists
+  const userExists = await prisma.user.findUnique({
+    where: {
+      id: user_id,
+    },
+  });
+
+  // Throw error id user doesnt exist
+  if (!userExists) {
+    return res.status(400).json({
+      msg: 'User id does not exist',
+    });
+  }
+
+  // Create question
+  const newQuestion = await prisma.question.create({
+    data: {
+      question,
+      user_id,
+    },
+  });
+
+  res.json(newQuestion);
+};
 
 const getQuestions = async (req, res) => {
- const questions = await question.findMany({
+ const questions = await prisma.question.findMany({
   select: {
     id: true,
     question: true,
@@ -53,4 +68,18 @@ const getQuestion = (req, res) => {
   });
 };
 
-module.exports = { getQuestions, getQuestion, getTest };
+const getTest = async (req, res) => {
+  const users = await prisma.user.findMany({
+    select: {
+      id: true, 
+      full_name: true,
+      email: true, 
+      phone: true,
+      role: true,
+      questions: true
+    }
+  })
+  res.json(users)
+}
+
+module.exports = { getQuestions, getQuestion, getTest, postQuestion };
