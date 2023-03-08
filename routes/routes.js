@@ -9,7 +9,7 @@ const {
 
 router.post('/questions', postQuestion);
 router.get('/questions', getQuestions)
-router.get('/questions/:id', getQuestion)
+router.get('/questions/:q_id', getQuestion)
 router.get('/test', getTest)
 
 module.exports = router

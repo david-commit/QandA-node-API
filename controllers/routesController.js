@@ -27,7 +27,7 @@ const postQuestion = async (req, res) => {
     },
   });
 
-  res.json(newQuestion);
+  res.status(200).json(newQuestion);
 };
 
 const getQuestions = async (req, res) => {
@@ -42,30 +42,30 @@ const getQuestions = async (req, res) => {
  res.json(questions)
 };
 
-const getQuestion = (req, res) => {
-  res.json({
-    id: 1,
-    user_id: 1,
-    question:
-      'What is the average experience needed to be a Principal Software Engineer?',
-    answers: [
-      {
-        id: 1,
-        user_id: 2,
-        answer: "I'd say 5 years on the job",
-      },
-      {
-        id: 2,
-        user_id: 3,
-        answer: "I'd say 5 years on the job",
-      },
-      {
-        id: 3,
-        user_id: 2,
-        answer: 'Correction, Indeed suggests 7 years',
-      },
-    ],
+const getQuestion = async (req, res) => {
+  const { q_id } = req.params
+
+  // Find single question
+  const questionExists = await prisma.question.findUnique({
+    where: {
+      id: parseInt(q_id),
+    },
+    select: {
+      id: true,
+      question: true,
+      created_at: true,
+      user_id: true,
+      answers: true
+    },
   });
+
+  if (!questionExists) {
+    return res.status(400).json({
+      msg: "Question does not exist"
+    })
+  }
+  
+  res.json(questionExists);
 };
 
 const getTest = async (req, res) => {

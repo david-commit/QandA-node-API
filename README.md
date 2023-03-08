@@ -1,10 +1,13 @@
 # QandA-node-API
 
 ### ERD
+
 http://bit.ly/3Zs1BRA
 
 # API Documentation
+
 ## Creating a user account
+
 Route: `POST /auth/register`
 
 ```json
@@ -18,6 +21,7 @@ Route: `POST /auth/register`
 ```
 
 Response:
+
 ```json
 {
   "newUser": {
@@ -31,7 +35,9 @@ Response:
   "token": "eyJhN...RCO4"
 }
 ```
+
 ## Logging in to an existing user account
+
 Route: `POST /auth/login`
 
 ```json
@@ -42,6 +48,7 @@ Route: `POST /auth/login`
 ```
 
 Response:
+
 ```json
 {
   "token": "eyJhN...RCO4"
@@ -49,9 +56,11 @@ Response:
 ```
 
 ## Get all questions
+
 Route: `GET /questions`
 
 Response:
+
 ```json
 [
   {
@@ -59,10 +68,19 @@ Response:
     "question": "How many students have adequate school textbooks?",
     "user_id": 8,
     "answers": []
+  },
+  {
+    "id": 2,
+    "question": "When is today?",
+    "created_at": "2023-03-08T16:46:58.323Z",
+    "user_id": 8,
+    "answers": []
   }
 ]
 ```
+
 ## Posting a question
+
 Route: `POST /auth/register`
 
 ```json
@@ -73,6 +91,7 @@ Route: `POST /auth/register`
 ```
 
 Response:
+
 ```json
 {
   "id": 2,
@@ -80,5 +99,21 @@ Response:
   "created_at": "2023-03-08T16:15:04.823Z",
   "updated_at": "2023-03-08T16:15:04.823Z",
   "user_id": 8
+}
+```
+
+## Get a specific question
+
+Route: `GET /questions/:question_id`
+
+Response:
+
+```json
+{
+  "id": 9, //:question_id
+  "question": "When is today?",
+  "created_at": "2023-03-08T16:46:58.323Z",
+  "user_id": 8,
+  "answers": []
 }
 ```

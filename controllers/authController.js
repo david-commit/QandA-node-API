@@ -163,7 +163,6 @@ const deleteAnswer = (req, res) => {
 module.exports = {
   registerUser,
   userLogin,
-  // postQuestion,
   deleteQuestion,
   postAnswer,
   updateAnswer,
