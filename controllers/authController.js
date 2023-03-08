@@ -1,24 +1,58 @@
 const { check, validationResult } = require('express-validator');
+const { PrismaClient } = require('@prisma/client');
+const { user } = new PrismaClient();
 
 // Register controller & Validation
-const registerUser = (req, res) => {
-  const { full_name, email, phone, role, password } = req.body;
-  const errors = validationResult(req)
+const registerUser = async (req, res) => {
+  const { full_name, email, phone, role, password, questions } = req.body;
+  // Validate the input request
+  const errors = validationResult(req);
 
+  // Chech for errors
   if (!errors.isEmpty()) {
     return res.status(400).json({
-      errors: errors.array()
-    })
+      errors: errors.array(),
+    });
   }
-  res.send({
-    full_name: full_name,
+
+  // Check if user exists
+  const userExists = await user.findUnique({
+    where: {
+      email,
+    },
   });
+
+  // Avoiding duplicate users by checking emails
+  if (userExists) {
+    return res.status(400).json({ msg: 'Email has been taken' });
+  }
+  // Send to DB
+  const createUser = await user.create({
+    data: { full_name, email, phone, role, password, questions },
+  });
+
+  res.json(createUser);
 };
 const registerUserValidation = [
-  check('full_name').trim(),
-  check('email').isEmail(),
-  check('password').isLength({ min: 6 }),
+  check('full_name', 'Name must be more than 3 characters')
+    .trim()
+    .isLength({ min: 3 }),
+  check('email', 'Invalid email').isEmail(),
+  check('password', 'Password must contain more than 6 characters').isLength({
+    min: 6,
+  }),
+  check('role', 'Please state your role in/to the community').isLength({
+    min: 2,
+  }),
 ];
+
+
+
+
+
+
+
+
 
 // Login controller & Validation
 const userLogin = (req, res) => {
@@ -27,7 +61,12 @@ const userLogin = (req, res) => {
     message: "You're logging in a user",
   });
 };
-const userLoginValidation = []
+const userLoginValidation = [
+  check('email', 'Invalid email').isEmail(),
+  check('password', 'Password must contain more than 6 characters').isLength({
+    min: 6,
+  }),
+];
 
 // Post question controller & Validation
 const postQuestion = (req, res) => {
@@ -56,7 +95,18 @@ const updateAnswer = (req, res) => {
     message: "You're editing an answer to a question",
   });
 };
-const updateAnswerValidation = []
+const updateAnswerValidation = [
+  check('full_name', 'Name must be more than 3 characters')
+    .trim()
+    .isLength({ min: 3 }),
+  check('email', 'Invalid email').isEmail(),
+  check('password', 'Password must contain more than 6 characters').isLength({
+    min: 6,
+  }),
+  check('role', 'Please stste your role in/to the community').isLength({
+    min: 2,
+  }),
+];
 
 // Delee answer controller & Validation
 const deleteAnswer = (req, res) => {
