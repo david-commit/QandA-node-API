@@ -12,9 +12,25 @@
 
 ERD - http://bit.ly/3Zs1BRA
 
-# API Documentation
+## Start Here🚀
 
-## Creating a user account
+### Prerequisites
+- Have Node installed on your machine
+- Have PostgreSQL installed (v15)
+
+Clone the repository to your machine depending on your environment
+```
+https: https://github.com/david-commit/QandA-node-API.git
+or
+SSH: git@github.com:david-commit/QandA-node-API.git
+```
+Run `npm install` to install all required dependancies
+
+Run `npm run dev` to start the server and make requests
+
+## API Documentation
+
+### Creating a user account
 
 Route: `POST /auth/register`
 
@@ -44,7 +60,7 @@ Response:
 }
 ```
 
-## Logging in to an existing user account
+### Logging in to an existing user account
 
 Route: `POST /auth/login`
 
@@ -63,7 +79,7 @@ Response:
 }
 ```
 
-## Get all questions
+### Get all questions
 
 Route: `GET /questions`
 
@@ -96,7 +112,7 @@ Response:
 ]
 ```
 
-## Posting a question
+### Posting a question
 
 Route: `POST /auth/register`
 
@@ -119,7 +135,7 @@ Response:
 }
 ```
 
-## Get a specific question
+### Get a specific question
 
 Route: `GET /questions/:question_id`
 
@@ -135,7 +151,7 @@ Response:
 }
 ```
 
-## Deleting an existing question
+### Deleting an existing question
 
 Route: `DELETE /questions/:question_id`
 
@@ -147,7 +163,7 @@ Response:
 }
 ```
 
-## Posting an answer to a question
+### Posting an answer to a question
 
 Route: `POST /questions/:question_id/answers`
 
@@ -170,7 +186,7 @@ Response:
 }
 ```
 
-## Updating an existing answer
+### Updating an existing answer
 
 Route: `PUT /questions/:question_id/answers/:answer_id`
 
@@ -192,7 +208,7 @@ Response:
 }
 ```
 
-## Deleting an existing answer
+### Deleting an existing answer
 
 Route: `DELETE /questions/:question_id/answers/:answer_id`
 
