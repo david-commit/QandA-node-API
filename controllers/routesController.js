@@ -74,8 +74,6 @@ const getQuestion = async (req, res) => {
 const deleteQuestion = async (req, res) => {
   const { q_id } = req.params;
 
-  // Check if user is authenticated
-
   // Find question by ID
   const question = await prisma.question.findUnique({
     where: {
@@ -89,6 +87,13 @@ const deleteQuestion = async (req, res) => {
       msg: 'Question does not exist',
     });
   }
+
+  // Delete answer dependants if any
+  await prisma.answer.deleteMany({
+    where: {
+      question_id: parseInt(q_id),
+    },
+  });
 
   // Proceed to delete
   await prisma.question.delete({
