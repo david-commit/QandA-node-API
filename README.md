@@ -1,8 +1,14 @@
 # QandA-node-API
+> By David Ondiege
 
-### ERD
+## Tools: 
+- NodeJS
+- ExpressJS
+- Prisma (ORM)
+- PostgreSQL
+- JWT
 
-http://bit.ly/3Zs1BRA
+ERD - http://bit.ly/3Zs1BRA
 
 # API Documentation
 
@@ -115,5 +121,27 @@ Response:
   "created_at": "2023-03-08T16:46:58.323Z",
   "user_id": 8,
   "answers": []
+}
+```
+
+## Updating an existing answer
+
+Route: `PUT /questions/:question_id/answers/:answer_id`
+
+```json
+{
+    "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the cort.",
+}
+```
+
+Response:
+
+```json
+{
+  "id": 5,
+  "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the cort.",
+  "created_at": "2023-03-08T21:04:32.590Z",
+  "updated_at": "2023-03-09T07:00:06.782Z",
+  "question_id": 10
 }
 ```

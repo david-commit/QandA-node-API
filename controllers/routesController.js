@@ -135,23 +135,33 @@ const postAnswerValidation = [
 ];
 
 // ====> Update answer controller & Validation
-const updateAnswer = (req, res) => {
+const updateAnswer = async (req, res) => {
   const errors = validationResult(req);
+  const { answer } = req.body
+  const { a_id } = req.params
 
-  res.json({
-    message: "You're editing an answer to a question",
-  });
+  // Validate the response
+  if (!errors.isEmpty) {
+    return res.status(400).json({
+      errors: errors.array()
+    })
+  }
+
+  // Find email by ID, Proceed to update record
+  const editAnswer = await prisma.answer.update({
+    where: {
+      id: parseInt(a_id)
+    },
+    data: {
+      answer
+    }
+  })
+
+  res.json(editAnswer);
 };
 const updateAnswerValidation = [
-  check('full_name', 'Name must be more than 3 characters')
-    .trim()
-    .isLength({ min: 3 }),
-  check('email', 'Invalid email').isEmail(),
-  check('password', 'Password must contain more than 6 characters').isLength({
-    min: 6,
-  }),
-  check('role', 'Please stste your role in/to the community').isLength({
-    min: 2,
+  check('answer', 'Answer must be a more than 5 characters').isLength({
+    min: 5,
   }),
 ];
 
