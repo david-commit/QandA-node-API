@@ -92,7 +92,7 @@ const userLogin = async (req, res) => {
 
   // Throw error if user doesnt exist on login attempt
   if (!userExists) {
-    return res.status(400).json({
+    return res.status(404).json({
       msg: 'Invaid email or password',
     });
   }
@@ -102,7 +102,7 @@ const userLogin = async (req, res) => {
 
   // Throw error is passwords dont match
   if (!matchedPassword) {
-    return res.status(400).json({
+    return res.status(403).json({
       error: {
         msg: 'Invalid email or password',
       },

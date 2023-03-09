@@ -15,7 +15,7 @@ const postQuestion = async (req, res) => {
 
   // Throw error id user doesnt exist
   if (!userExists) {
-    return res.status(400).json({
+    return res.status(404).json({
       msg: 'User id does not exist',
     });
   }
@@ -62,7 +62,7 @@ const getQuestion = async (req, res) => {
   });
 
   if (!question) {
-    return res.status(400).json({
+    return res.status(404).json({
       msg: 'Question does not exist',
     });
   }
@@ -85,7 +85,7 @@ const deleteQuestion = async (req, res) => {
 
   // Check if question exists
   if (!question) {
-    return res.status(400).json({
+    return res.status(404).json({
       msg: 'Question does not exist',
     });
   }
@@ -124,7 +124,7 @@ const postAnswer = async (req, res) => {
   });
 
   if (!question) {
-    return res.status(400).json({
+    return res.status(404).json({
       msg: 'Question does not exist',
     });
   }
@@ -185,7 +185,7 @@ const deleteAnswer = async (req, res) => {
 
   // Throw error if it doesnt exist
   if (!answerExists) {
-    return res.status(400).json({
+    return res.status(404).json({
       msg: 'Answer does not exist',
     });
   }
