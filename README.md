@@ -1,7 +1,9 @@
 # QandA-node-API
+
 > By David Ondiege
 
-## Tools: 
+## Tools:
+
 - NodeJS
 - ExpressJS
 - Prisma (ORM)
@@ -72,15 +74,24 @@ Response:
   {
     "id": 1,
     "question": "How many students have adequate school textbooks?",
+    "created_at": "2023-03-08T16:46:58.323Z",
     "user_id": 8,
     "answers": []
   },
   {
     "id": 2,
-    "question": "When is today?",
+    "question": "When is the basketball court construction due?",
     "created_at": "2023-03-08T16:46:58.323Z",
     "user_id": 8,
-    "answers": []
+    "answers": [
+      {
+        "id": 1,
+        "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the court.",
+        "created_at": "2023-03-08T21:04:32.590Z",
+        "updated_at": "2023-03-09T07:14:10.114Z",
+        "question_id": 10
+      }
+    ]
   }
 ]
 ```
@@ -124,13 +135,48 @@ Response:
 }
 ```
 
+## Deleting an existing question
+
+Route: `DELETE /questions/:question_id`
+
+Response:
+
+```json
+{
+  "msg": "Question deleted succesfully"
+}
+```
+
+## Posting an answer to a question
+
+Route: `POST /questions/:question_id/answers`
+
+```json
+{
+  "question_id": 1,
+  "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the cort."
+}
+```
+
+Response:
+
+```json
+{
+  "id": 11,
+  "answer": "The festival sill start at 12",
+  "created_at": "2023-03-09T07:57:17.223Z",
+  "updated_at": "2023-03-09T07:57:17.223Z",
+  "question_id": 1
+}
+```
+
 ## Updating an existing answer
 
 Route: `PUT /questions/:question_id/answers/:answer_id`
 
 ```json
 {
-    "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the cort.",
+  "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the cort."
 }
 ```
 
@@ -146,7 +192,8 @@ Response:
 }
 ```
 
-## Deleting an existing question
+## Deleting an existing answer
+
 Route: `DELETE /questions/:question_id/answers/:answer_id`
 
 Response:

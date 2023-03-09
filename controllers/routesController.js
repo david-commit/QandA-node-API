@@ -37,6 +37,7 @@ const getQuestions = async (req, res) => {
       id: true,
       question: true,
       user_id: true,
+      created_at: true,
       answers: true,
     },
   });
