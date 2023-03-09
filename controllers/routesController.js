@@ -109,6 +109,12 @@ const postAnswer = async (req, res) => {
   // Validate the input request
   const errors = validationResult(req);
 
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors.array(),
+    });
+  }
+
   //  Check if the question exists
   let question = await prisma.question.findUnique({
     where: {
@@ -123,39 +129,39 @@ const postAnswer = async (req, res) => {
   }
 
   const newAnswer = await prisma.answer.create({
-    data: { answer, question_id: q_id, created_at },
+    data: { answer, question_id: parseInt(q_id), created_at },
   });
 
   res.json(newAnswer);
 };
 const postAnswerValidation = [
-  check('answer', 'Name must be more than 3 characters')
+  check('answer', 'Name must be more than 5 characters')
     .trim()
-    .isLength({ min: 3 }),
+    .isLength({ min: 5 }),
 ];
 
 // ====> Update answer controller & Validation
 const updateAnswer = async (req, res) => {
   const errors = validationResult(req);
-  const { answer } = req.body
-  const { a_id } = req.params
+  const { answer } = req.body;
+  const { a_id } = req.params;
 
   // Validate the response
-  if (!errors.isEmpty) {
+  if (!errors.isEmpty()) {
     return res.status(400).json({
-      errors: errors.array()
-    })
+      errors: errors.array(),
+    });
   }
 
   // Find email by ID, Proceed to update record
   const editAnswer = await prisma.answer.update({
     where: {
-      id: parseInt(a_id)
+      id: parseInt(a_id),
     },
     data: {
-      answer
-    }
-  })
+      answer,
+    },
+  });
 
   res.json(editAnswer);
 };
@@ -166,9 +172,32 @@ const updateAnswerValidation = [
 ];
 
 // ====> Delete answer controller & Validation
-const deleteAnswer = (req, res) => {
+const deleteAnswer = async (req, res) => {
+  const { a_id } = req.params;
+
+  // Check if answer exists
+  const answerExists = await prisma.answer.findUnique({
+    where: {
+      id: parseInt(a_id),
+    },
+  });
+
+  // Throw error if it doesnt exist
+  if (!answerExists) {
+    return res.status(400).json({
+      msg: 'Answer does not exist',
+    });
+  }
+
+  // Proceed to delete
+  await prisma.answer.delete({
+    where: {
+      id: parseInt(a_id),
+    },
+  });
+
   res.json({
-    message: "You're deleting an answer to a question",
+    msg: 'Answer deleted succesfully',
   });
 };
 

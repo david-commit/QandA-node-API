@@ -139,9 +139,20 @@ Response:
 ```json
 {
   "id": 5,
-  "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the cort.",
+  "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the court.",
   "created_at": "2023-03-08T21:04:32.590Z",
   "updated_at": "2023-03-09T07:00:06.782Z",
   "question_id": 10
+}
+```
+
+## Deleting an existing question
+Route: `DELETE /questions/:question_id/answers/:answer_id`
+
+Response:
+
+```json
+{
+  "msg": "Answer deleted succesfully"
 }
 ```
