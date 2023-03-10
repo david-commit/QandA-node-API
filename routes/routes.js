@@ -11,12 +11,13 @@ const {
   deleteAnswer,
   updateAnswerValidation,
   postAnswerValidation,
+  postQuestionValidation,
 } = require('../controllers/routesController');
 const checkAuth = require('../middleware/checkAuth');
 
 router.get('/questions', getQuestions);
 router.get('/questions/:q_id', getQuestion);
-router.post('/questions', checkAuth, postQuestion);
+router.post('/questions', checkAuth, postQuestionValidation, postQuestion);
 router.delete('/questions/:q_id', checkAuth, deleteQuestion);
 router.post(
   '/questions/:q_id/answers',

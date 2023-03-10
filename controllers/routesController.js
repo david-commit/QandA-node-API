@@ -5,6 +5,15 @@ const { check, validationResult } = require('express-validator');
 // ====> Post question controller & Validation
 const postQuestion = async (req, res) => {
   const { question, user_id } = req.body;
+  // Validate the input request
+  const errors = validationResult(req);
+
+  // Throw error on invalid user input
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors.array(),
+    });
+  }
 
   // Check if user exists
   const userExists = await prisma.user.findUnique({
@@ -30,6 +39,11 @@ const postQuestion = async (req, res) => {
 
   res.status(200).json(newQuestion);
 };
+const postQuestionValidation = [
+  check('question', 'Question must be more than 5 characters')
+    .trim()
+    .isLength({ min: 5 }),
+];
 
 const getQuestions = async (req, res) => {
   const questions = await prisma.question.findMany({
@@ -144,7 +158,7 @@ const postAnswer = async (req, res) => {
   res.json(newAnswer);
 };
 const postAnswerValidation = [
-  check('answer', 'Name must be more than 5 characters')
+  check('answer', 'Answer must be more than 5 characters')
     .trim()
     .isLength({ min: 5 }),
 ];
@@ -235,4 +249,5 @@ module.exports = {
   deleteAnswer,
   updateAnswerValidation,
   postAnswerValidation,
+  postQuestionValidation,
 };
