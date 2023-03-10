@@ -16,9 +16,8 @@ ERD - http://bit.ly/3Zs1BRA
 
 ### Prerequisites
 
-- Have Node installed on your machine
-- Have PostgreSQL installed (v15)
-- Have a PostgreSQL user created with a password
+- Have Node & PostgreSQL installed (v15) installed on your machine
+- Have at least one PostgreSQL user created with a password
 
 1. Clone the repository to your machine depending on your environment
 
@@ -29,19 +28,38 @@ SSH: git@github.com:david-commit/QandA-node-API.git
 ```
 
 2.  Create a new database instance on your machine by following the the steps below:
+    <br /><strong>Note:</strong> Ignore the <> (angle brackets) in the commands.
 
     <ol type="i">
-    <li>Open a new instance of terminal and run <strong>psql -U postgres</strong></li>
-    <li>Create a new database by running <strong>CREATE DATABASE < database_name >;</strong>
-    <br />
-    Replace < database_name > with the name of your database
-    </li>
-    <li>Grant privilages on the database to the user. Run <strong>GRANT ALL PRIVILEGES ON DATABASE < database_name > to < your_user >;</strong></li>
+      <li>Open a new instance of terminal and run <code>psql -U postgres</code></li>
+      <li>Create a new database by running <code>CREATE DATABASE < database_name >;</code>
+        <br />
+        Replace < database_name > with the name of your database
+      </li>
+      <li>Grant privilages on the database to the user. Run <code>GRANT ALL PRIVILEGES ON DATABASE < database_name > to < your_user >;</code>
+        <br />
+        Replace < your_user > with the name to your database user
+      </li>
+      <li>
+        Create a <code>.env</code> file on the root directory and the following variables:
+        <ol type="a">
+          <li><code>PORT = < port-number > </code> <br />
+          Provide a port-number of your choice e.g 8000</li>
+          <li><code>SECRET = "any-random-string" </code> <br />
+          Provide a string of your choice e.g ineverthoughtbuildingnodeapiswouldbethisfun</li>
+          <li><code>DATABASE_URL = "postgresql://user:user_password@localhost:5432/mydb?schema=sample" </code> <br />
+          Replace the user, user_password & mydb with your database specifics. Refer to <a href="https://www.prisma.io/docs/concepts/database-connectors/postgresql">Docs</a> for guidance.</li>
+        </ol>
+      </li>
     </ol>
 
 Run `npm install` to install all required dependancies
 
 Run `npm run dev` to start the server and make requests
+
+Run `npx prisma migrate dev` to run run migrations to synchronize your database to your schema
+
+Then run ``
 
 ## API Documentation
 
