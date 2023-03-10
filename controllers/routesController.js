@@ -115,6 +115,7 @@ const postAnswer = async (req, res) => {
   // Validate the input request
   const errors = validationResult(req);
 
+  // Throw error on invalid user input
   if (!errors.isEmpty()) {
     return res.status(400).json({
       errors: errors.array(),
@@ -128,12 +129,14 @@ const postAnswer = async (req, res) => {
     },
   });
 
+  // Throw error if question doesnt exist
   if (!question) {
     return res.status(404).json({
       msg: 'Question does not exist',
     });
   }
 
+  // Create an answer to a question
   const newAnswer = await prisma.answer.create({
     data: { answer, question_id: parseInt(q_id), created_at },
   });

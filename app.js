@@ -16,7 +16,7 @@ app.use('/', globalRoutes)
 app.use('/auth', authRoutes)
 app.use(cors())
 
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 8080
 app.listen(PORT, () => {
  console.log(`Node server running on http://localhost:${PORT}`)
 })
