@@ -28,7 +28,7 @@ SSH: git@github.com:david-commit/QandA-node-API.git
 ```
 
 2.  Create a new database instance on your machine by following the the steps below:
-    <br /><strong>Note:</strong> Ignore the <> (angle brackets) in the commands.
+    <br /><strong>Note:</strong> Ignore the <> (angle brackets) when writing the commands.
 
     <ol type="i">
       <li>Open a new instance of terminal and run <code>psql -U postgres</code></li>
@@ -41,25 +41,26 @@ SSH: git@github.com:david-commit/QandA-node-API.git
         Replace < your_user > with the name to your database user
       </li>
       <li>
-        Create a <code>.env</code> file on the root directory and the following variables:
-        <ol type="a">
+        Create an <code>.env</code> file on the root directory and the following variables:
+        <ol type="i">
           <li><code>PORT = < port-number > </code> <br />
           Provide a port-number of your choice e.g 8000</li>
           <li><code>SECRET = "any-random-string" </code> <br />
-          Provide a string of your choice e.g ineverthoughtbuildingnodeapiswouldbethisfun</li>
+          Provide a string of your choice e.g "ineverthoughtbuildingnodeapiswouldbethisfun"</li>
           <li><code>DATABASE_URL = "postgresql://user:user_password@localhost:5432/mydb?schema=sample" </code> <br />
           Replace the user, user_password & mydb with your database specifics. Refer to <a href="https://www.prisma.io/docs/concepts/database-connectors/postgresql">Docs</a> for guidance.</li>
         </ol>
       </li>
     </ol>
 
-Run `npm install` to install all required dependancies
+3. Run `npm install` to install all required dependancies
 
-Run `npm run dev` to start the server and make requests
+4. Run `npm run dev` to start the server and make requests
 
-Run `npx prisma migrate dev` to run run migrations to synchronize your database to your schema
+5. Run `npx prisma migrate dev` to run run migrations to synchronize your database to your schema
 
-Then run ``
+    === <br />
+    Currently working on seeding the database for first usage
 
 ## API Documentation
 
@@ -203,7 +204,7 @@ Route: `POST /questions/:question_id/answers`
 ```json
 {
   "question_id": 1,
-  "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the cort."
+  "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the court."
 }
 ```
 
@@ -225,7 +226,7 @@ Route: `PUT /questions/:question_id/answers/:answer_id`
 
 ```json
 {
-  "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the cort."
+  "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the court."
 }
 ```
 
