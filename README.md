@@ -15,15 +15,30 @@ ERD - http://bit.ly/3Zs1BRA
 ## Start Here🚀
 
 ### Prerequisites
+
 - Have Node installed on your machine
 - Have PostgreSQL installed (v15)
+- Have a PostgreSQL user created with a password
 
-Clone the repository to your machine depending on your environment
+1. Clone the repository to your machine depending on your environment
+
 ```
 https: https://github.com/david-commit/QandA-node-API.git
 or
 SSH: git@github.com:david-commit/QandA-node-API.git
 ```
+
+2.  Create a new database instance on your machine by following the the steps below:
+
+    <ol type="i">
+    <li>Open a new instance of terminal and run <strong>psql -U postgres</strong></li>
+    <li>Create a new database by running <strong>CREATE DATABASE < database_name >;</strong>
+    <br />
+    Replace < database_name > with the name of your database
+    </li>
+    <li>Grant privilages on the database to the user. Run <strong>GRANT ALL PRIVILEGES ON DATABASE < database_name > to < your_user >;</strong></li>
+    </ol>
+
 Run `npm install` to install all required dependancies
 
 Run `npm run dev` to start the server and make requests
