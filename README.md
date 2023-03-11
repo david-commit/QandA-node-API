@@ -9,6 +9,7 @@
 - Prisma (ORM)
 - PostgreSQL
 - JWT
+- Prisma
 
 ERD - http://bit.ly/3Zs1BRA
 
@@ -57,7 +58,7 @@ SSH: git@github.com:david-commit/QandA-node-API.git
 
 4. Run `npm run dev` to start the server and make requests
 
-5. Run `npx prisma migrate dev` to run run migrations to synchronize your database to your schema
+5. Run `npx prisma migrate dev` to run run migrations to synchronize your database to the schema
 
     === <br />
     Currently working on seeding the database for first usage
@@ -148,7 +149,7 @@ Response:
 
 ### Posting a question
 
-Route: `POST /auth/register`
+Route: `POST /questions`
 
 ```json
 {
@@ -177,12 +178,20 @@ Response:
 
 ```json
 {
-  "id": 9, //:question_id
-  "question": "When is today?",
-  "created_at": "2023-03-08T16:46:58.323Z",
-  "user_id": 8,
-  "answers": []
-}
+    "id": 2, //question_id
+    "question": "When is the basketball court construction due?",
+    "created_at": "2023-03-08T16:46:58.323Z",
+    "user_id": 8,
+    "answers": [
+      {
+        "id": 1,
+        "answer": "The community sports center revovation was completed on Friday, the youth can now play basketball at the court.",
+        "created_at": "2023-03-08T21:04:32.590Z",
+        "updated_at": "2023-03-09T07:14:10.114Z",
+        "question_id": 10
+      }
+    ]
+  }
 ```
 
 ### Deleting an existing question
