@@ -4,6 +4,7 @@
   "description": "A question and answer API with CRUD operations",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "dev": "nodemon app.js"
   },
   "repository": {
@@ -29,12 +30,13 @@
     "express": "^4.18.2",
     "express-validator": "^6.15.0",
     "jsonwebtoken": "^9.0.0",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.21"
   },
   "devDependencies": {
     "prisma": "^4.11.0"
   },
   "prisma": {
-  "seed": "node prisma seed.js"
-}
+    "seed": "node prisma seed.js"
+  }
 }
