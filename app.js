@@ -13,10 +13,10 @@ dotenv.config()
 // Middleware
 // app.use(express.json())
 app.use(morgan('dev'))
+app.use(cors({origin: '*'}))
 app.use(bodyParser.json())
 app.use('/', globalRoutes)
 app.use('/auth', authRoutes)
-app.use(cors())
 
 const PORT = process.env.PORT || 8080
 app.listen(PORT, () => {
