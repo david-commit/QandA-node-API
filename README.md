@@ -9,7 +9,6 @@
 - Prisma (ORM)
 - PostgreSQL
 - JWT
-- Prisma
 
 ERD - http://bit.ly/3Zs1BRA
 

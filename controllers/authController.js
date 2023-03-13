@@ -56,7 +56,7 @@ const registerUser = async (req, res) => {
     },
   });
 
-  return res.json({ newUser, token });
+  return res.status(201).json({ newUser, token });
 };
 const registerUserValidation = [
   check('full_name', 'Name must be more than 3 characters')
@@ -111,7 +111,7 @@ const userLogin = async (req, res) => {
 
   const token = await JWT.sign({ email }, SECRET, { expiresIn: '24h' });
 
-  res.json({ token });
+  res.status(200).json({ token });
 };
 const userLoginValidation = [
   check('email', 'Invalid email').isEmail(),

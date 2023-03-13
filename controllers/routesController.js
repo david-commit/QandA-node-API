@@ -37,7 +37,7 @@ const postQuestion = async (req, res) => {
     },
   });
 
-  res.status(200).json(newQuestion);
+  res.status(201).json(newQuestion);
 };
 const postQuestionValidation = [
   check('question', 'Question must be more than 5 characters')
@@ -55,7 +55,7 @@ const getQuestions = async (req, res) => {
       answers: true,
     },
   });
-  res.json(questions);
+  res.status(200).json(questions);
 };
 
 const getQuestion = async (req, res) => {
@@ -81,7 +81,7 @@ const getQuestion = async (req, res) => {
     });
   }
 
-  res.json(question);
+  res.status(200).json(question);
 };
 
 // ====> Delete question controller & Validation
@@ -116,7 +116,7 @@ const deleteQuestion = async (req, res) => {
     },
   });
 
-  res.json({
+  res.status(204).json({
     msg: 'Question deleted successfully',
   });
 };
@@ -155,7 +155,7 @@ const postAnswer = async (req, res) => {
     data: { answer, question_id: parseInt(q_id), created_at },
   });
 
-  res.json(newAnswer);
+  res.status(201).json(newAnswer);
 };
 const postAnswerValidation = [
   check('answer', 'Answer must be more than 5 characters')
@@ -186,7 +186,7 @@ const updateAnswer = async (req, res) => {
     },
   });
 
-  res.json(editAnswer);
+  res.status(202).json(editAnswer);
 };
 const updateAnswerValidation = [
   check('answer', 'Answer must be a more than 5 characters').isLength({
@@ -219,7 +219,7 @@ const deleteAnswer = async (req, res) => {
     },
   });
 
-  res.json({
+  res.status(204).json({
     msg: 'Answer deleted succesfully',
   });
 };
@@ -235,7 +235,7 @@ const getTest = async (req, res) => {
       questions: true,
     },
   });
-  res.json(users);
+  res.status(200).json(users);
 };
 
 module.exports = {
