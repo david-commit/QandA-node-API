@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { describe, it } = require('mocha');
+const { response } = require('../app');
 const server = require('../app');
 
 // Assertion style
@@ -42,16 +43,41 @@ describe('Question Resources', () => {
     });
   });
 
-  it("Should respond question not found", (done) => {
-    const qId = 1000;
-    chai
-      .request(server)
-      .get(`/questions/${qId}`)
-      .end((err, response) => {
-        response.should.have.status(404);
-        response.body.should.be.a('object');
-        response.body.should.have.property('msg');
-        done();
-      });
+  // Question not Found (404)
+  describe('GET should respond with a 404', () => {
+    it('Should respond question not found', (done) => {
+      const qId = 1000;
+      chai
+        .request(server)
+        .get(`/questions/${qId}`)
+        .end((err, response) => {
+          response.should.have.status(404);
+          response.body.should.be.a('object');
+          response.body.should.have.property('msg');
+          done();
+        });
+    });
   });
+
+  // Check for user token before POSTing a question
+  describe('Non-logged in user POSTing a question', () => {
+    it('Should return a Forbidden eror', (done) => {
+      const question = { question: 'This is a test question', user_id: 1 };
+      chai
+        .request(server)
+        .post(`/questions`)
+        .send(question)
+        .end((err, response) => {
+          response.should.have.status(403);
+          response.body.should.be.a('object');
+          response.body.should.have.property(
+            'msg',
+            'Not authorized, please log in'
+          );
+        });
+        done()
+    });
+  });
+
+
 });
