@@ -19,8 +19,8 @@ describe('Question Resources', () => {
         .end((err, response) => {
           response.should.have.status(200);
           response.body.should.be.a('array');
-          done();
         });
+      done();
     });
   });
 
@@ -37,24 +37,24 @@ describe('Question Resources', () => {
           response.body.should.have.property('id');
           response.body.should.have.property('user_id');
           response.body.should.have.property('answers').that.is.a('array');
-          done();
         });
+      done();
     });
   });
 
   // Question not Found (404)
   describe('GET should respond with a 404', () => {
-    it('Should respond question not found', (done) => {
-      const qId = 1000;
+    it('Should respond question not found (404)', (done) => {
+      const qId = 10001;
       chai
         .request(server)
         .get(`/questions/${qId}`)
         .end((err, response) => {
           response.should.have.status(404);
           response.body.should.be.a('object');
-          response.body.should.have.property('msg');
-          done();
+          response.body.should.have.property('msg', 'Question does not exist');
         });
+      done();
     });
   });
 
@@ -74,7 +74,7 @@ describe('Question Resources', () => {
             'Not authorized, please log in'
           );
         });
-        done()
+      done();
     });
   });
 
