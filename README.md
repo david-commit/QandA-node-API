@@ -9,6 +9,7 @@
 - Prisma (ORM)
 - PostgreSQL
 - JWT
+- Mocha
 
 ERD - http://bit.ly/3Zs1BRA
 
@@ -171,13 +172,13 @@ Response:
 
 ### Get a specific question
 
-Route: `GET /questions/:question_id`
+Route: `GET /questions/:questionId`
 
 Response:
 
 ```json
 {
-    "id": 2, //question_id
+    "id": 2, //questionId
     "question": "When is the basketball court construction due?",
     "created_at": "2023-03-08T16:46:58.323Z",
     "user_id": 8,
@@ -195,7 +196,7 @@ Response:
 
 ### Deleting an existing question
 
-Route: `DELETE /questions/:question_id`
+Route: `DELETE /questions/:questionId`
 
 Response:
 
@@ -207,7 +208,7 @@ Response:
 
 ### Posting an answer to a question
 
-Route: `POST /questions/:question_id/answers`
+Route: `POST /questions/:questionId/answers`
 
 ```json
 {
@@ -230,7 +231,7 @@ Response:
 
 ### Updating an existing answer
 
-Route: `PUT /questions/:question_id/answers/:answer_id`
+Route: `PUT /questions/:questionId/answers/:answerId`
 
 ```json
 {
@@ -252,7 +253,7 @@ Response:
 
 ### Deleting an existing answer
 
-Route: `DELETE /questions/:question_id/answers/:answer_id`
+Route: `DELETE /questions/:questionId/answers/:answerId`
 
 Response:
 
