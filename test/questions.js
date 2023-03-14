@@ -1,7 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { describe, it } = require('mocha');
-const { response } = require('../app');
 const server = require('../app');
 
 // Assertion style
@@ -79,5 +78,50 @@ describe('Question Resources', () => {
     });
   });
 
+  // // Successful POST on question
+  // describe('POST a question', () => {
+  //   it('Should successfully POST a question', (done) => {
+  //     const question = { question: 'This is a test question', user_id: 1 };
+  //     chai
+  //       .request(server)
+  //       .post(`/questions`)
+  //       .send(question)
+  //       .end((err, response) => {
+  //         response.should.have.status(201);
+  //         response.body.should.be.a('object');
+  //         response.body.should.have.property('id');
+  //         response.body.should.have
+  //           .property('question')
+  //           .eq('This is a test question');
+  //         response.body.should.have.property('user_id').eq(1);
+  //         done();
+  //       });
+  //   });
+  // });
 
+  // // Blocked POST on question by validation
+  // describe('POST a question', () => {
+  //   it('Should NOT POST an invalid question question', (done) => {
+  //     const question = {};
+  //     chai
+  //       .request(server)
+  //       .post(`/questions`)
+  //       .send(question)
+  //       .end((err, response) => {
+  //         response.should.have.status(400);
+  //         response.body.should.be.a('array');
+  //         response.body.should.have.property('errors');
+  //         done();
+  //       });
+  //   });
+  // });
+
+  // // Updating an answer
+  // describe('Updating a question', () => {
+  //   it('Should NOT update because user is not logged in', (done) => {
+  //     const question = { question: 'This is an updated test question', user_id: 1 };
+  //     chai.request(server)
+  //     .put(`/questions/1`)
+  //   })
+  // })
 });
