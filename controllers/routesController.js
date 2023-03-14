@@ -59,12 +59,12 @@ const getQuestions = async (req, res) => {
 };
 
 const getQuestion = async (req, res) => {
-  const { q_id } = req.params;
+  const { questionId } = req.params;
 
   // Find single question
   const question = await prisma.question.findUnique({
     where: {
-      id: parseInt(q_id),
+      id: parseInt(questionId),
     },
     select: {
       id: true,
@@ -86,12 +86,12 @@ const getQuestion = async (req, res) => {
 
 // ====> Delete question controller & Validation
 const deleteQuestion = async (req, res) => {
-  const { q_id } = req.params;
+  const { questionId } = req.params;
 
   // Find question by ID
   const question = await prisma.question.findUnique({
     where: {
-      id: parseInt(q_id),
+      id: parseInt(questionId),
     },
   });
 
@@ -105,14 +105,14 @@ const deleteQuestion = async (req, res) => {
   // Delete answer dependants if any
   await prisma.answer.deleteMany({
     where: {
-      question_id: parseInt(q_id),
+      question_id: parseInt(questionId),
     },
   });
 
   // Proceed to delete
   await prisma.question.delete({
     where: {
-      id: parseInt(q_id),
+      id: parseInt(questionId),
     },
   });
 
@@ -124,7 +124,7 @@ const deleteQuestion = async (req, res) => {
 // ====> Post answer controller & Validation
 const postAnswer = async (req, res) => {
   // Grab question ID from params
-  const { q_id } = req.params;
+  const { questionId } = req.params;
   const { answer, question_id, created_at } = req.body;
   // Validate the input request
   const errors = validationResult(req);
@@ -139,7 +139,7 @@ const postAnswer = async (req, res) => {
   //  Check if the question exists
   let question = await prisma.question.findUnique({
     where: {
-      id: parseInt(q_id),
+      id: parseInt(questionId),
     },
   });
 
@@ -152,7 +152,7 @@ const postAnswer = async (req, res) => {
 
   // Create an answer to a question
   const newAnswer = await prisma.answer.create({
-    data: { answer, question_id: parseInt(q_id), created_at },
+    data: { answer, question_id: parseInt(questionId), created_at },
   });
 
   res.status(201).json(newAnswer);
@@ -167,7 +167,7 @@ const postAnswerValidation = [
 const updateAnswer = async (req, res) => {
   const errors = validationResult(req);
   const { answer } = req.body;
-  const { a_id } = req.params;
+  const { answerId } = req.params;
 
   // Validate the response
   if (!errors.isEmpty()) {
@@ -179,7 +179,7 @@ const updateAnswer = async (req, res) => {
   // Find email by ID, Proceed to update record
   const editAnswer = await prisma.answer.update({
     where: {
-      id: parseInt(a_id),
+      id: parseInt(answerId),
     },
     data: {
       answer,
@@ -196,12 +196,12 @@ const updateAnswerValidation = [
 
 // ====> Delete answer controller & Validation
 const deleteAnswer = async (req, res) => {
-  const { a_id } = req.params;
+  const { answerId } = req.params;
 
   // Check if answer exists
   const answerExists = await prisma.answer.findUnique({
     where: {
-      id: parseInt(a_id),
+      id: parseInt(answerId),
     },
   });
 
@@ -215,7 +215,7 @@ const deleteAnswer = async (req, res) => {
   // Proceed to delete
   await prisma.answer.delete({
     where: {
-      id: parseInt(a_id),
+      id: parseInt(answerId),
     },
   });
 

@@ -16,22 +16,22 @@ const {
 const checkAuth = require('../middleware/checkAuth');
 
 router.get('/questions', getQuestions);
-router.get('/questions/:q_id', getQuestion);
+router.get('/questions/:questionId', getQuestion);
 router.post('/questions', checkAuth, postQuestionValidation, postQuestion);
-router.delete('/questions/:q_id', checkAuth, deleteQuestion);
+router.delete('/questions/:questionId', checkAuth, deleteQuestion);
 router.post(
-  '/questions/:q_id/answers',
+  '/questions/:questionId/answers',
   checkAuth,
   postAnswerValidation,
   postAnswer
 );
 router.put(
-  '/questions/:q_id/answers/:a_id',
+  '/questions/:questionId/answers/:answerId',
   checkAuth,
   updateAnswerValidation,
   updateAnswer
 );
-router.delete('/questions/:q_id/answers/:a_id', checkAuth, deleteAnswer);
+router.delete('/questions/:questionId/answers/:answerId', checkAuth, deleteAnswer);
 router.get('/test', getTest);
 
 module.exports = router;
